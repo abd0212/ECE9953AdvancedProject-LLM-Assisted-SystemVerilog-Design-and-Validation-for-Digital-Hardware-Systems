@@ -26,31 +26,6 @@ This submission covers the first seven weeks of the project, encompassing litera
 | 7 | Simulation runner, iterative feedback loop, initial testbench generation | DONE |
 
 
-## What's Included
-
-```
-llm-sv-midterm/
-├── Makefile                           # Build and run targets
-├── README.md                          # This file
-├── requirements.txt                   # Python dependencies
-├── .gitignore
-├── configs/
-│   └── experiment_config.json         # Experiment parameters
-├── scripts/
-│   ├── llm_interface.py               # LLM API wrapper (Claude + GPT)
-│   ├── sim_runner.py                  # Icarus Verilog compilation + simulation
-│   └── run_experiment.py              # Midterm experiment orchestrator
-├── src/
-│   ├── rtl/baseline/
-│   │   ├── traffic_light_fsm.sv       # Baseline: Traffic light FSM controller
-│   │   └── alu.sv                     # Baseline: 32-bit ALU with 10 operations
-│   └── testbenches/baseline/
-│       ├── traffic_light_fsm_tb.sv    # Self-checking FSM testbench
-│       └── alu_tb.sv                  # Self-checking ALU testbench
-```
-
----
-
 ## Baseline Designs
 
 Two of the four planned benchmark designs are complete,
