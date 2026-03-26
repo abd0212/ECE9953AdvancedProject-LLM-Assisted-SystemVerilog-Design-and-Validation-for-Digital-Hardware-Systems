@@ -1,8 +1,8 @@
 """
 llm_interface.py - LLM Interface for SystemVerilog Generation
 
-Provides a unified interface to interact with LLMs (Anthropic Claude, OpenAI GPT)
-for generating RTL, testbenches, and assertions. Supports iterative refinement
+This file provides a unified interface to interact with LLMs (Anthropic Claude, OpenAI GPT)
+for generating RTL, testbenches, and assertions. Alsoo, Supports iterative refinement
 using simulation error feedback.
 """
 
@@ -14,7 +14,7 @@ from dataclasses import dataclass, field
 from typing import Optional
 from enum import Enum
 
-# Try importing LLM SDKs - graceful fallback if not installed
+
 try:
     import anthropic
     HAS_ANTHROPIC = True
@@ -89,100 +89,7 @@ class ExperimentMetrics:
     llm_time_min: float = 0.0
 
 
-# ===== Prompt Templates =====
-
-SYSTEM_PROMPT = """You are an expert hardware design engineer specializing in SystemVerilog RTL design and verification. You produce clean, synthesizable, well-commented SystemVerilog code following industry best practices.
-
-Rules:
-1. Output ONLY valid SystemVerilog code between ```systemverilog and ``` markers.
-2. Use non-blocking assignments (<=) in always_ff blocks.
-3. Use blocking assignments (=) in always_comb blocks.
-4. Always include a reset condition in sequential logic.
-5. Use meaningful signal names and add comments explaining design intent.
-6. For testbenches, include clock generation, reset sequence, and self-checking assertions.
-7. Follow synthesizable coding guidelines - no delays (#) in RTL (only in testbenches).
-"""
-
-RTL_TEMPLATE = """Design a SystemVerilog module with the following specification:
-
-Module Name: {module_name}
-Description: {description}
-
-Interface:
-{interface}
-
-Functional Requirements:
-{requirements}
-
-{context}
-
-Generate complete, synthesizable SystemVerilog RTL code for this module.
-"""
-
-TESTBENCH_TEMPLATE = """Write a comprehensive SystemVerilog testbench for the following module:
-
-Module Name: {module_name}
-Module Interface:
-{interface}
-
-Module Behavior:
-{behavior}
-
-The testbench should include:
-1. Clock generation (10ns period)
-2. Reset sequence
-3. Stimulus generation covering normal operation and edge cases
-4. Self-checking logic with assertions or output comparison
-5. Test completion reporting (pass/fail count)
-6. Coverage of all major functional paths
-
-{context}
-
-Generate complete SystemVerilog testbench code.
-"""
-
-ASSERTION_TEMPLATE = """Write SystemVerilog Assertions (SVA) for the following module:
-
-Module Name: {module_name}
-Module Interface:
-{interface}
-
-Natural Language Properties to Verify:
-{properties}
-
-Generate SVA properties and assertions including:
-1. Immediate assertions for combinational checks
-2. Concurrent assertions for temporal properties
-3. Cover properties for functional coverage
-4. Appropriate assertion labels and error messages
-
-{context}
-
-Generate complete SystemVerilog assertion code (can be a bind module or inline).
-"""
-
-DEBUG_TEMPLATE = """The following SystemVerilog code has compilation/simulation errors.
-
-Design Name: {design_name}
-Code:
-```systemverilog
-{code}
-```
-
-Error Messages:
-```
-{errors}
-```
-
-{context}
-
-Please fix the errors and provide the corrected complete SystemVerilog code.
-Explain each fix briefly in a comment.
-"""
-
-
 class LLMInterface:
-    """Unified interface for LLM-based SystemVerilog generation."""
 
     def __init__(self, provider: LLMProvider = LLMProvider.ANTHROPIC,
                  model: Optional[str] = None,
@@ -285,7 +192,6 @@ class LLMInterface:
     @staticmethod
     def _extract_code(response: str) -> str:
         """Extract SystemVerilog code from LLM response."""
-        # Look for code blocks
         markers = ["```systemverilog", "```sv", "```verilog", "```"]
         for marker in markers:
             if marker in response:
@@ -297,13 +203,13 @@ class LLMInterface:
                         return code_block[:end_idx].strip()
                     return code_block.strip()
 
-        # If no code block markers, return the full response
+
         return response.strip()
 
     def generate_rtl(self, module_name: str, description: str,
                      interface: str, requirements: str,
                      context: str = "") -> GenerationResult:
-        """Convenience method for RTL generation."""
+     
         prompt = RTL_TEMPLATE.format(
             module_name=module_name,
             description=description,
