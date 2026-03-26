@@ -1,19 +1,18 @@
 # LLM-Assisted SystemVerilog Design and Validation
 
-**Course:** ECE9953 Advanced Project — Midterm Progress Report  
+**Course:** ECE9953 Advanced Project — Midterm Report  
 **Author:** Abdullah Syed (Asm908)  
-**Date:** March 2026  
-**Status:** Midterm checkpoint (Weeks 1–7 of 14)
+**Date:** March 2026 
 
 ---
 
 ## Project Summary
 
-This project investigates the use of Large Language Models (LLMs) to assist and automate portions of SystemVerilog hardware design and verification. The framework generates RTL code, testbenches, and assertions from natural-language specifications, then evaluates correctness against human-written baselines using automated simulation.
+This project investigates the use of Large Language Models (LLMs) to assist and automate portions of SystemVerilog hardware design and verification. The framework generates RTL code, testbenches, and assertions from natural-language specifications, then evaluates correctness against human written baselines using automated simulation.
 
 ---
 
-## Midterm Scope
+## For Midterm Review
 
 This submission covers the first seven weeks of the project, encompassing literature review, baseline implementations, the core LLM interface, simulation infrastructure, and initial generation experiments.
 
@@ -21,21 +20,11 @@ This submission covers the first seven weeks of the project, encompassing litera
 
 | Week | Milestone | Status |
 |------|-----------|--------|
-| 1–2 | Literature review, problem selection, framework architecture | Done |
-| 3–4 | Baseline RTL and testbenches for Traffic Light FSM and ALU | Done |
-| 5–6 | LLM interface (Anthropic + OpenAI), prompt templates, RTL generation | Done |
-| 7 | Simulation runner, iterative feedback loop, initial testbench generation | Done |
+| 1–2 | Literature review, problem selection, framework architecture | DONE |
+| 3–4 | Baseline RTL and testbenches for Traffic Light FSM and ALU | DONE |
+| 5–6 | LLM interface (Anthropic + OpenAI), prompt templates, RTL generation | DONE |
+| 7 | Simulation runner, iterative feedback loop, initial testbench generation | DONE |
 
-### Remaining (Weeks 8–14)
-
-| Week | Milestone |
-|------|-----------|
-| 8 | FIFO and UART TX baseline designs |
-| 9–10 | SVA assertion generation, bug injection framework |
-| 11–12 | Cross-provider comparison (Claude vs GPT), advanced prompting |
-| 13–14 | Full quantitative evaluation, visualization, final report |
-
----
 
 ## What's Included
 
@@ -58,23 +47,21 @@ llm-sv-midterm/
 │   └── testbenches/baseline/
 │       ├── traffic_light_fsm_tb.sv    # Self-checking FSM testbench
 │       └── alu_tb.sv                  # Self-checking ALU testbench
-└── docs/
-    └── midterm_report.docx            # Midterm technical report
 ```
 
 ---
 
 ## Baseline Designs
 
-Two of the four planned benchmark designs are complete:
+Two of the four planned benchmark designs are complete,
 
 ### 1. Traffic Light FSM (`traffic_light_fsm.sv`)
 
-A Mealy-type FSM with five states (RED, RED_YELLOW, GREEN, YELLOW, EMERGENCY). Features timer-based transitions, car sensor input that shortens the green phase, emergency vehicle override, and a pedestrian walk signal. The testbench verifies all state transitions, timer durations, sensor behavior, emergency override, and walk signal logic with 9 self-checking tests.
+A Mealy type FSM with five states (RED, RED_YELLOW, GREEN, YELLOW, EMERGENCY). Features timer based transitions, car sensor input that shortens the green phase, emergency vehicle override, and a pedestrian walk signal. The testbench verifies all state transitions, timer durations, sensor behavior, emergency override, and walk signal logic with 9 self checking tests.
 
 ### 2. 32-bit ALU (`alu.sv`)
 
-A combinational ALU supporting 10 operations: ADD, SUB, AND, OR, XOR, SLL, SRL, SRA, SLT (signed), and SLTU (unsigned). Includes overflow detection for signed arithmetic, carry-out, zero flag, and negative flag. The testbench covers all operations, edge cases (MAX_INT overflow, unsigned vs. signed comparison), and status flag verification with 18 self-checking tests.
+A combinational ALU supporting 10 operations: ADD, SUB, AND, OR, XOR, SLL, SRL, SRA, SLT (signed), and SLTU (unsigned). Includes overflow detection for signed arithmetic, carry-out, zero flag, and negative flag. The testbench covers all operations, edge cases (MAX_INT overflow, unsigned vs. signed comparison), and status flag verification with 18 self checking tests.
 
 ---
 
@@ -82,17 +69,17 @@ A combinational ALU supporting 10 operations: ADD, SUB, AND, OR, XOR, SLL, SRL, 
 
 ### LLM Interface (`llm_interface.py`)
 
-The LLM interface provides a unified Python API for generating SystemVerilog using either Anthropic Claude or OpenAI GPT. Key features:
+The LLM interface provides a unified Python API for generating SystemVerilog using either Anthropic Claude or OpenAI GPT. Key features,
 
 - Structured prompt templates for RTL, testbench, and assertion generation
 - System prompt establishing the LLM as an expert hardware designer with synthesis constraints
 - Low temperature (0.2) for deterministic code output
 - Automatic code extraction from LLM response markdown blocks
-- Result saving with metadata (latency, model, iteration count)
+
 
 ### Simulation Runner (`sim_runner.py`)
 
-The simulation runner wraps Icarus Verilog to provide automated compilation and simulation with result parsing:
+The simulation runner wraps Icarus Verilog to provide automated compilation and simulation with result parsing,
 
 - Compiles SystemVerilog with `-g2012 -Wall` flags
 - Parses pass/fail counts from simulation output
@@ -100,11 +87,6 @@ The simulation runner wraps Icarus Verilog to provide automated compilation and 
 - Supports both Icarus Verilog and Verilator (lint mode)
 - Configurable timeout to prevent runaway simulations
 
-### Iterative Feedback Loop
-
-When LLM-generated code fails to compile, the framework automatically feeds the error messages back to the LLM and requests a corrected version, repeating up to 3 times. This mirrors how a human developer would use compiler output to fix errors.
-
----
 
 ## Setup and Running
 
