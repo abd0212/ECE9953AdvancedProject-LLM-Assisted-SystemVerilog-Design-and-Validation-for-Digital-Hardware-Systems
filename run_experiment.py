@@ -45,7 +45,7 @@ logger = logging.getLogger(__name__)
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-# ===== Design Specifications (Midterm: 2 of 4 designs) =====
+# ===== Design Specifications  =====
 
 DESIGN_SPECS = {
     "traffic_light_fsm": {
