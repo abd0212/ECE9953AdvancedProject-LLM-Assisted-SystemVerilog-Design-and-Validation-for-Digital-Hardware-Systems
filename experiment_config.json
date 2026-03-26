@@ -1,0 +1,33 @@
+{
+    "experiment": {
+        "name": "LLM-Assisted SystemVerilog Design and Validation",
+        "version": "1.0.0",
+        "author": "Abdullah Syed (Asm908)",
+        "course": "ECE9953"
+    },
+    "llm": {
+        "default_provider": "anthropic",
+        "anthropic": {
+            "model": "claude-sonnet-4-20250514",
+            "max_tokens": 4096,
+            "temperature": 0.2
+        },
+        "openai": {
+            "model": "gpt-4o",
+            "max_tokens": 4096,
+            "temperature": 0.2
+        },
+        "max_fix_iterations": 3
+    },
+    "simulation": {
+        "simulator": "iverilog",
+        "timeout_seconds": 60,
+        "work_dir": "sim_work"
+    },
+    "designs": [
+        "traffic_light_fsm",
+        "alu",
+        "fifo",
+        "uart_tx"
+    ]
+}
